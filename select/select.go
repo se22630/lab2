@@ -41,11 +41,14 @@ func main() {
 	for { // = while(true)
 		select {
 		case s := <-strings:
-			fmt.Println("Recdeived a string", s)
+			fmt.Println("Received a string", s)
 		case i := <-ints:
 			fmt.Println("Received an int", i)
 		case j := <-slices:
 			fmt.Println("Received a slice", j)
+		default:
+			fmt.Println("--- Nothing to receive, sleeping for 3s...")
+			time.Sleep(3 * time.Second)
 		}
 	}
 }
