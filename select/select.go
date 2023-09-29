@@ -41,7 +41,7 @@ func main() {
 	for { // = while(true)
 		select {
 		case s := <-strings:
-			fmt.Println("Received a string", s)
+			fmt.Println("Recdeived a string", s)
 		case i := <-ints:
 			fmt.Println("Received an int", i)
 		case j := <-slices:
