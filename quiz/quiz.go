@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
 // question struct stores a single question and its corresponding answer.
@@ -55,11 +56,18 @@ func ask(c chan score, s score, question question) {
 
 func main() {
 	s := score(0)
+	timeUp := time.After(5 * time.Second)
 	channel := make(chan score)
 	qs := questions()
 	for _, q := range qs {
 		go ask(channel, s, q)
-		s = <-channel
+		select {
+		case newScore := <-channel:
+			s = newScore
+		case <-timeUp:
+			fmt.Println("\nTime's up! Final score", s)
+			return
+		}
 	}
 	fmt.Println("Final score", s)
 }
